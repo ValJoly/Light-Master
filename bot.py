@@ -82,9 +82,10 @@ class Bot(commands.Bot):
         bulb.set_brightness(100)
         bulb.set_rgb(r, g, b)
 
-    @commands.command(name='rgbHex')
+    @commands.command(name='hex')
     async def rgbHex(self, ctx: commands.Context, hex: str):
         # convert hex to rgb
+        hex = hex.lstrip('#')
         r = int(hex[0:2], 16)
         g = int(hex[2:4], 16)
         b = int(hex[4:6], 16)
