@@ -284,6 +284,10 @@ def bg_color():
                         last = current
                     except Exception as e:
                         print(e)
+                        # if error try to look for 'client quota exceeded'
+                        if (str(e).find("client quota exceeded") != -1):
+                            # try to reconnect to the bulbs
+                            reconnect()
                         pass
                     
                 # sleep for 1 second
@@ -323,6 +327,21 @@ def hex_to_rgb(hex):
     hex = hex.lstrip('#')
     tmp = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
     return np.array(tmp).tolist()
+
+
+def reconnect():
+    turnoverbackground = False
+    
+    # remove the bulbs from the dict
+    lights.clear()
+    print("reconnecting")
+    floor_bulb = Bulb("192.168.1.20")
+    desk_bulb = Bulb("192.168.1.65")
+
+    lights["floor"] = floor_bulb
+    lights["desk"] = desk_bulb
+    
+    turnoverbackground = True
 
 if __name__ == "__main__":
     # create a thread to run pyautogui
