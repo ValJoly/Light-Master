@@ -1,0 +1,18 @@
+# My twitch bot to light up the show
+
+## TL;DR
+beep boop I'm a bot that light up your heart <3
+
+## How to use :
+ - have python and pipenv installed
+ - clone the repo
+ - go to the repo folder
+ - then run `pipenv install`
+ - and finally `python -m pipenv --python "..."/python.exe run python bot.py`
+
+## What's inside of his guts
+ - A connection to twitch via TwitchIO (all my love to them this lib his banger)
+ - Use of yeeLight API to control the lights (I have yeelight bulbs)
+ - It change background color of the room depending on the mean color of my screen
+ - The chat can use command to change the color of the lights
+ - Basically it does some cool shit with chat and the lights

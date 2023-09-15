@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 twitchio = "*"
 yeelight = "*"
+numpy = "*"
+pyautogui = "*"
 
 [dev-packages]
 
