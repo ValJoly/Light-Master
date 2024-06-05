@@ -11,7 +11,7 @@ from threading import Thread
 from colorsys import rgb_to_hsv, hsv_to_rgb
 
 floor_bulb = Bulb("192.168.1.20")
-desk_bulb = Bulb("192.168.1.65")
+desk_bulb = Bulb("192.168.1.67")
 
 # create a dict of lights
 lights = {
