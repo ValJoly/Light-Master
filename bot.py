@@ -9,21 +9,37 @@ import numpy as np
 import pyautogui
 from threading import Thread
 from colorsys import rgb_to_hsv, hsv_to_rgb
+from network_scanner import get_ip_address
 
-floor_bulb = Bulb("192.168.1.20")
-desk_bulb = Bulb("192.168.1.67")
+floor_bulb_ip = ""
+desk_bulb_ip = ""
+try :
+    floor_bulb_ip = get_ip_address("YeelightColorBulb-9DB6")
+    desk_bulb_ip = get_ip_address("YeelightColorBulb-90A9")
+    print(f"floor bulb ip: {floor_bulb_ip}")
+    print(f"desk bulb ip: {desk_bulb_ip}")
+except Exception as e:
+    print(e)
+    pass
 
-# create a dict of lights
-lights = {
-    "floor": floor_bulb,
-    "desk": desk_bulb
-}
+floor_bulb = Bulb(floor_bulb_ip)
+desk_bulb = Bulb(desk_bulb_ip)
 
-floor_bulb.turn_on()
-desk_bulb.turn_on()
+# create a dict of lights with the name of the light as the key and the bulb object as the value but only if the ip address is not empty
+lights = {}
+# lights = {
+#     "floor": floor_bulb,
+#     "desk": desk_bulb
+# }
+if (floor_bulb_ip != ""):
+    lights["floor"] = floor_bulb
+    floor_bulb.turn_on()
+    floor_bulb.set_brightness(100)
 
-floor_bulb.set_brightness(100)
-desk_bulb.set_brightness(100)
+if (desk_bulb_ip != ""):
+    lights["desk"] = desk_bulb
+    desk_bulb.turn_on()
+    desk_bulb.set_brightness(100)
 
 turnoverbackground = True
 
@@ -281,7 +297,6 @@ def bg_color():
                         lights["desk"].turn_on()
                         lights["desk"].set_brightness(100)
                         lights["desk"].set_rgb(complement[0], complement[1], complement[2])
-                        last = current
                     except Exception as e:
                         print(e)
                         # if error try to look for 'client quota exceeded'
@@ -290,8 +305,10 @@ def bg_color():
                             reconnect()
                         pass
                     
+                    last = current
+                    
                 # sleep for 1 second
-        time.sleep(0.5)
+        time.sleep(1)
 
 def complementary(r, g, b):
     substract = 255 - np.array([r, g, b])
@@ -335,11 +352,20 @@ def reconnect():
     # remove the bulbs from the dict
     lights.clear()
     print("reconnecting")
-    floor_bulb = Bulb("192.168.1.20")
-    desk_bulb = Bulb("192.168.1.65")
-
-    lights["floor"] = floor_bulb
-    lights["desk"] = desk_bulb
+    # floor_bulb = Bulb("192.168.1.20")
+    # desk_bulb = Bulb("192.168.1.65")
+    floor_bulb_ip = get_ip_address("YeelightColorBulb-9DB6")
+    desk_bulb_ip = get_ip_address("YeelightColorBulb-90A9")
+    print(f"floor bulb ip: {floor_bulb_ip}")
+    print(f"desk bulb ip: {desk_bulb_ip}")
+    floor_bulb = Bulb(floor_bulb_ip)
+    desk_bulb = Bulb(desk_bulb_ip)
+    # add the bulbs to the dict
+    if (floor_bulb_ip != ""):
+        lights["floor"] = floor_bulb
+    
+    if (desk_bulb_ip != ""):
+        lights["desk"] = desk_bulb
     
     turnoverbackground = True
 
